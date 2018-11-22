@@ -1,0 +1,50 @@
+USE HURIS
+GO
+
+CREATE TABLE [dbo].[Employee]
+(
+	[EmployeeID] INT IDENTITY (101,1) NOT NULL,
+	[FirstName] NVARCHAR (100) NOT NULL,
+	[MiddleName] NVARCHAR (100) NOT NULL,
+	[LastName] NVARCHAR (100) NOT NULL,
+	[Suffix] NVARCHAR (10) NOT NULL,
+	[Gender] NVARCHAR (10) NOT NULL,
+	[DOB] DATE,
+	[EmployeeNumber] NVARCHAR(12) NOT NULL,
+	[EmployeeType] NVARCHAR (100) NOT NULL,
+	CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED ([EmployeeID] ASC)
+);
+
+CREATE TABLE [dbo].[SystemUsers]
+(
+	[UserID] INT IDENTITY (101,1) NOT NULL,
+	[UserName] NVARCHAR (60) NOT NULL,
+	[UserPassword] NVARCHAR (32) NOT NULL,
+	[EmployeeNumber] INT NOT NULL,
+	[UserType] NVARCHAR (100) NOT NULL
+	CONSTRAINT [PK_SystemUser] PRIMARY KEY CLUSTERED ([UserID] ASC)
+);
+
+CREATE TABLE [dbo].[Shift]
+(
+	[ShiftID] INT IDENTITY (101,1) NOT NULL,
+	[EmployeeType] NVARCHAR (100) NOT NULL,
+	[TimeInStart] DATETIME NOT NULL,
+	[TimeInEnd] DATETIME NOT NULL,
+	[TimeOutStart] DATETIME NOT NULL,
+	[TimeOutEnd] DATETIME NOT NULL,
+	[ShiftingCode] INT NOT NULL,
+	CONSTRAINT [PK_Shift] PRIMARY KEY CLUSTERED ([ShiftID] ASC)
+);
+
+
+CREATE TABLE [dbo].[Attendance]
+(
+	[AttendanceID] INT IDENTITY (101,1) NOT NULL,
+	[EmployeeID] INT FOREIGN KEY REFERENCES Employee (EmployeeID),
+	[EmployeeName] NVARCHAR (100) NOT NULL,
+	[DateTimeLog] DATETIME NOT NULL,
+	[LogType] NVARCHAR (100) NOT NULL,
+	[ShiftingCode] INT NOT NULL
+	CONSTRAINT [PK_Attendance] PRIMARY KEY CLUSTERED ([AttendanceID] ASC)
+);
